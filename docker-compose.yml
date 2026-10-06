@@ -1,0 +1,46 @@
+# TP5 — Manejador de tareas de proyectos de software
+#
+# Tres contenedores: PostgreSQL, la API en Express y el bundle de React servido
+# por nginx. Al host solo se publican el frontend y la base; a la API se llega
+# por el proxy /api de nginx.
+#
+#   docker compose up --build   ->  http://localhost:8080
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: tp5
+      POSTGRES_PASSWORD: tp5
+      POSTGRES_DB: tp5
+    ports:
+      # 5433 en el host para no chocar con un PostgreSQL local en el 5432.
+      - '5433:5432'
+    volumes:
+      - datos-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tp5 -d tp5']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgres://tp5:tp5@postgres:5432/tp5
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      - backend
+
+volumes:
+  datos-postgres:

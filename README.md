@@ -1,6 +1,6 @@
 # TP5 — Task React (manejador de tareas de proyectos de software)
 
-Trabajo Práctico de **Programación Avanzada 2026** — FCyT � LISI (UADER).
+Trabajo Práctico de **Programación Avanzada 2026** — FCyT · LISI (UADER).
 
 Aplicación web para cargar tareas de un proyecto de software con los datos que
 pide la consigna, listarlas y **editar**, **eliminar** o **finalizar** cada una.
@@ -19,9 +19,9 @@ pide la consigna, listarlas y **editar**, **eliminar** o **finalizar** cada una.
 
 ### Los 12 campos
 
-Nombre del Proyecto � Tipo de Actividad � Estado � Resumen � Descripción �
-Prioridad � Informador � Persona asignada � Precondición � Fecha de Creación �
-Fecha de Cierre � Sprint
+Nombre del Proyecto · Tipo de Actividad · Estado · Resumen · Descripción ·
+Prioridad · Informador · Persona asignada · Precondición · Fecha de Creación ·
+Fecha de Cierre · Sprint
 
 *Fecha de Cierre* figura en el formulario como campo de sólo lectura: la asigna
 la operación **Finalizar**, no se escribe a mano. Es la única libertad que nos
@@ -99,7 +99,7 @@ npm test
 npm start        # http://localhost:3000
 ```
 
-Las migraciones de `backend/db/migrations/` se aplican solas en cada arranque, as�
+Las migraciones de `backend/db/migrations/` se aplican solas en cada arranque, así
 que no hay que correr nada a mano. La cadena de conexión se toma de la variable
 de entorno `DATABASE_URL` (por defecto, la de `docker-compose.yml`).
 
@@ -144,14 +144,14 @@ cd frontend && npm test      # 13 tests
 cd frontend && npm run typecheck
 ```
 
-En el backend, los tests de rutas inyectan un repositorio en memoria, as� que
+En el backend, los tests de rutas inyectan un repositorio en memoria, así que
 **la suite entera pasa sin una base corriendo**. El SQL real se verifica aparte,
 con `docker compose`.
 
 ## Decisiones de diseño
 
 - **Validación a mano en el dominio.** Sin zod ni parecidos: la consigna pide la
-  lógica de negocio como manejador de tareas, as� que `domain/task.js` es código
+  lógica de negocio como manejador de tareas, así que `domain/task.js` es código
   propio, puro y testeable, y es la única fuente de verdad de las reglas.
 - **Finalizar es una operación, no una edición.** `PUT` rechaza
   `estado: 'finalizada'`; el cierre pasa por `PATCH .../finalizar`, que es lo que
@@ -159,7 +159,7 @@ con `docker compose`.
   entre `estado` y `fecha_cierre`.
 - **Backend en JavaScript ESM plano.** Node lo corre directo: la imagen Docker no
   necesita etapa de build ni transpilación.
-- **El mapeo snake_case ↔ camelCase vive en un solo archivo** (el repositorio), as�
+- **El mapeo snake_case ↔ camelCase vive en un solo archivo** (el repositorio), así
   que el resto de la app conoce una sola forma de la tarea.
 - **Frontend servido por nginx**, con proxy `/api` al backend: se evita CORS en
   producción y se cumple el requisito de que el frontend esté en su contenedor.

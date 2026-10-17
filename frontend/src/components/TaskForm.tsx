@@ -18,13 +18,13 @@ import type { Estado, Prioridad, TipoActividad, TareaEditable } from '../types/t
  */
 const ESTADOS_EDITABLES = ESTADOS.filter((estado) => estado !== 'finalizada');
 
-const OBLIGATORIOS: { campo: keyof TareaEditable; etiqueta: string }[] = [
-  { campo: 'nombreProyecto', etiqueta: 'El Nombre del Proyecto' },
-  { campo: 'resumen', etiqueta: 'El Resumen' },
-  { campo: 'descripcion', etiqueta: 'La Descripción' },
-  { campo: 'informador', etiqueta: 'El Informador' },
-  { campo: 'personaAsignada', etiqueta: 'La Persona asignada' },
-  { campo: 'sprint', etiqueta: 'El Sprint' },
+const OBLIGATORIOS: { campo: keyof TareaEditable; mensaje: string }[] = [
+  { campo: 'nombreProyecto', mensaje: 'El Nombre del Proyecto es obligatorio.' },
+  { campo: 'resumen', mensaje: 'El Resumen es obligatorio.' },
+  { campo: 'descripcion', mensaje: 'La Descripción es obligatoria.' },
+  { campo: 'informador', mensaje: 'El Informador es obligatorio.' },
+  { campo: 'personaAsignada', mensaje: 'La Persona asignada es obligatoria.' },
+  { campo: 'sprint', mensaje: 'El Sprint es obligatorio.' },
 ];
 
 /**
@@ -62,7 +62,7 @@ export function TaskForm({
 
   function validar(): DetalleValidacion[] {
     return OBLIGATORIOS.filter(({ campo }) => String(tarea[campo]).trim() === '').map(
-      ({ campo, etiqueta }) => ({ campo, mensaje: `${etiqueta} es obligatorio.` }),
+      ({ campo, mensaje }) => ({ campo, mensaje }),
     );
   }
 

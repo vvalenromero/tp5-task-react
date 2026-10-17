@@ -62,7 +62,7 @@ describe('TaskForm', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Agregar tarea' }));
 
     expect(onGuardar).not.toHaveBeenCalled();
-    expect(await screen.findAllByText(/es obligatorio/i)).not.toHaveLength(0);
+    expect(await screen.findAllByText(/es obligatori[oa]\./i)).toHaveLength(6);
   });
 
   it('guarda la tarea completa con la fecha de creación en formato ISO', async () => {
